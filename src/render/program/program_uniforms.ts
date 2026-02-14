@@ -39,8 +39,8 @@ export const programUniforms: Record<string, any> = {
     symbolTextAndIcon: symbolTextAndIconUniforms,
     background: backgroundUniforms,
     backgroundPattern: backgroundPatternUniforms,
-    projectionErrorMeasurement: projectionErrorMeasurementUniforms,
     // Feature-gated program uniforms
+    ...(FEATURE_GLOBE ? {projectionErrorMeasurement: projectionErrorMeasurementUniforms} : {}),
     ...(FEATURE_FILL_EXTRUSION ? {fillExtrusion: fillExtrusionUniforms, fillExtrusionPattern: fillExtrusionPatternUniforms} : {}),
     ...(FEATURE_HEATMAP ? {heatmap: heatmapUniforms, heatmapTexture: heatmapTextureUniforms} : {}),
     ...(FEATURE_HILLSHADE ? {hillshade: hillshadeUniforms, hillshadePrepare: hillshadePrepareUniforms} : {}),

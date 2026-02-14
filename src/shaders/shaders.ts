@@ -104,7 +104,7 @@ export const shaders: Record<string, PreparedShader> = {
     symbolIcon: prepare(symbolIconFrag, symbolIconVert),
     symbolSDF: prepare(symbolSDFFrag, symbolSDFVert),
     symbolTextAndIcon: prepare(symbolTextAndIconFrag, symbolTextAndIconVert),
-    projectionErrorMeasurement: prepare(projectionErrorMeasurementFrag, projectionErrorMeasurementVert),
+    ...(FEATURE_GLOBE ? {projectionErrorMeasurement: prepare(projectionErrorMeasurementFrag, projectionErrorMeasurementVert)} : {}),
     // Feature-gated shaders
     ...(FEATURE_HEATMAP ? {heatmap: prepare(heatmapFrag, heatmapVert), heatmapTexture: prepare(heatmapTextureFrag, heatmapTextureVert)} : {}),
     ...(FEATURE_COLOR_RELIEF ? {colorRelief: prepare(colorReliefFrag, colorReliefVert)} : {}),

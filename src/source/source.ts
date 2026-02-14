@@ -150,6 +150,9 @@ export type SourceClass = {
 export const create = (id: string, specification: SourceSpecification | CanvasSourceSpecification, dispatcher: Dispatcher, eventedParent: Evented): Source => {
 
     const Class = getSourceType(specification.type);
+    if (!Class) {
+        throw new Error(`Source type "${specification.type}" is not available. It may have been excluded from this build.`);
+    }
     const source = new Class(id, specification, dispatcher, eventedParent);
 
     if (source.id !== id) {

@@ -59,6 +59,7 @@ const featureModuleMap: Record<string, string[]> = {
         'geo/projection/vertical_perspective_projection.ts',
         'geo/projection/vertical_perspective_transform.ts',
         'geo/projection/vertical_perspective_camera_helper.ts',
+        'render/program/projection_error_measurement_program.ts',
         'ui/control/globe_control.ts',
     ],
     FEATURE_VIDEO_SOURCE: [
