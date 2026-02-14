@@ -555,7 +555,7 @@ export class Painter {
         this.clearStencil();
 
         // draw sky first to not overwrite symbols
-        if (this.style.sky) drawSky(this, this.style.sky);
+        if (FEATURE_SKY && this.style.sky) drawSky(this, this.style.sky);
 
         this._showOverdrawInspector = options.showOverdrawInspector;
         this.depthRangeFor3D = [0, 1 - ((style._order.length + 2) * this.numSublayers * this.depthEpsilon)];
@@ -606,7 +606,7 @@ export class Painter {
         }
 
         // Render atmosphere, only for Globe projection
-        if (renderOptions.isRenderingGlobe) {
+        if (FEATURE_SKY && renderOptions.isRenderingGlobe) {
             drawAtmosphere(this, this.style.sky, this.style.light);
         }
 
@@ -632,7 +632,7 @@ export class Painter {
      * to accurate (that is, the camera has not moved much since it was updated last).
      */
     maybeDrawDepthAndCoords(requireExact: boolean) {
-        if (!this.style || !this.style.map || !this.style.map.terrain) {
+        if (!FEATURE_TERRAIN || !this.style || !this.style.map || !this.style.map.terrain) {
             return;
         }
         const prevMatrix = this.terrainFacilitator.matrix;
@@ -663,17 +663,17 @@ export class Painter {
             drawSymbols(painter, tileManager, layer, coords, this.style.placement.variableOffsets, renderOptions);
         } else if (isCircleStyleLayer(layer)) {
             drawCircles(painter, tileManager, layer, coords, renderOptions);
-        } else if (isHeatmapStyleLayer(layer)) {
+        } else if (FEATURE_HEATMAP && isHeatmapStyleLayer(layer)) {
             drawHeatmap(painter, tileManager, layer, coords, renderOptions);
         } else if (isLineStyleLayer(layer)) {
             drawLine(painter, tileManager, layer, coords, renderOptions);
         } else if (isFillStyleLayer(layer)) {
             drawFill(painter, tileManager, layer, coords, renderOptions);
-        } else if (isFillExtrusionStyleLayer(layer)) {
+        } else if (FEATURE_FILL_EXTRUSION && isFillExtrusionStyleLayer(layer)) {
             drawFillExtrusion(painter, tileManager, layer, coords, renderOptions);
-        } else if (isHillshadeStyleLayer(layer)) {
+        } else if (FEATURE_HILLSHADE && isHillshadeStyleLayer(layer)) {
             drawHillshade(painter, tileManager, layer, coords, renderOptions);
-        } else if (isColorReliefStyleLayer(layer)) {
+        } else if (FEATURE_COLOR_RELIEF && isColorReliefStyleLayer(layer)) {
             drawColorRelief(painter, tileManager, layer, coords, renderOptions);
         } else if (isRasterStyleLayer(layer)) {
             drawRaster(painter, tileManager, layer, coords, renderOptions);

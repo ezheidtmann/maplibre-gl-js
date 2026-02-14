@@ -785,7 +785,7 @@ export class Map extends Camera {
         this.handlers = new HandlerManager(this, resolvedOptions);
 
         const hashName = (typeof resolvedOptions.hash === 'string' && resolvedOptions.hash) || undefined;
-        this._hash = resolvedOptions.hash && (new Hash(hashName)).addTo(this);
+        this._hash = FEATURE_HASH && resolvedOptions.hash && (new Hash(hashName)).addTo(this);
         // don't set position from options if set through hash
         if (!this._hash || !this._hash._onHashChange()) {
             this.jumpTo({
@@ -817,7 +817,7 @@ export class Map extends Camera {
         if (resolvedOptions.attributionControl)
             this.addControl(new AttributionControl(typeof resolvedOptions.attributionControl === 'boolean' ? undefined : resolvedOptions.attributionControl));
 
-        if (resolvedOptions.maplibreLogo)
+        if (FEATURE_CONTROLS && resolvedOptions.maplibreLogo)
             this.addControl(new LogoControl(), resolvedOptions.logoPosition);
 
         this.on('style.load', () => {

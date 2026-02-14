@@ -150,6 +150,9 @@ export type SourceClass = {
 export const create = (id: string, specification: SourceSpecification | CanvasSourceSpecification, dispatcher: Dispatcher, eventedParent: Evented): Source => {
 
     const Class = getSourceType(specification.type);
+    if (!Class) {
+        throw new Error(`Source type "${specification.type}" is not available. It may have been excluded from this build.`);
+    }
     const source = new Class(id, specification, dispatcher, eventedParent);
 
     if (source.id !== id) {
@@ -164,7 +167,8 @@ const getSourceType = (name: string): SourceClass => {
         case 'geojson':
             return GeoJSONSource;
         case 'image':
-            return ImageSource;
+            if (FEATURE_IMAGE_SOURCE) return ImageSource;
+            break;
         case 'raster':
             return RasterTileSource;
         case 'raster-dem':
@@ -172,9 +176,11 @@ const getSourceType = (name: string): SourceClass => {
         case 'vector':
             return VectorTileSource;
         case 'video':
-            return VideoSource;
+            if (FEATURE_VIDEO_SOURCE) return VideoSource;
+            break;
         case 'canvas':
-            return CanvasSource;
+            if (FEATURE_CANVAS_SOURCE) return CanvasSource;
+            break;
     }
     return registeredSources[name];
 };

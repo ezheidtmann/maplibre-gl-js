@@ -1,3 +1,4 @@
+/// <reference path="./build/feature_flags.d.ts" />
 import packageJSON from '../package.json' with {type: 'json'};
 import {Map, type MapOptions, type WebGLContextAttributesWithType} from './ui/map';
 import {NavigationControl, type NavigationControlOptions} from './ui/control/navigation_control';
