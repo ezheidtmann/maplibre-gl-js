@@ -97,7 +97,7 @@ export class Sky extends Evented {
     }
 
     _validate(validate: Function, value: unknown, options: StyleSetterOptions = {}) {
-        if (options?.validate === false) {
+        if (!FEATURE_VALIDATE_STYLE || (options?.validate === false)) {
             return false;
         }
         return emitValidationErrors(this, validate.call(validateStyle, extend({

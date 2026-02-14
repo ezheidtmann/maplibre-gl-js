@@ -458,7 +458,7 @@ export class Style extends Evented {
 
     _load(json: StyleSpecification, options: StyleSwapOptions & StyleSetterOptions, previousStyle?: StyleSpecification) {
         let nextState = options.transformStyle ? options.transformStyle(previousStyle, json) : json;
-        if (options.validate && emitValidationErrors(this, validateStyle(nextState))) {
+        if (FEATURE_VALIDATE_STYLE && options.validate && emitValidationErrors(this, validateStyle(nextState))) {
             return;
         }
 
@@ -858,7 +858,7 @@ export class Style extends Evented {
         const serializedStyle =  this.serialize();
         nextState = options.transformStyle ? options.transformStyle(serializedStyle, nextState) : nextState;
         const validate = options.validate ?? true;
-        if (validate && emitValidationErrors(this, validateStyle(nextState))) return false;
+        if (FEATURE_VALIDATE_STYLE && validate && emitValidationErrors(this, validateStyle(nextState))) return false;
 
         nextState = clone(nextState);
         nextState.layers = derefLayers(nextState.layers);
@@ -1097,7 +1097,7 @@ export class Style extends Evented {
         let layer: ReturnType<typeof createStyleLayer>;
         if (layerObject.type === 'custom') {
 
-            if (emitValidationErrors(this, validateCustomStyleLayer(layerObject))) return;
+            if (FEATURE_VALIDATE_STYLE && emitValidationErrors(this, validateCustomStyleLayer(layerObject))) return;
 
             layer = createStyleLayer(layerObject, this._globalState);
 
@@ -1745,7 +1745,7 @@ export class Style extends Evented {
     _validate(validate: Validator, key: string, value: any, props: any, options: {
         validate?: boolean;
     } = {}) {
-        if (options && options.validate === false) {
+        if (!FEATURE_VALIDATE_STYLE || (options && options.validate === false)) {
             return false;
         }
         return emitValidationErrors(this, validate.call(validateStyle, extend({

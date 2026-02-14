@@ -31,3 +31,5 @@ declare const FEATURE_POPUP: boolean;
 declare const FEATURE_MARKER: boolean;
 /** When false, removes URL hash tracking support. */
 declare const FEATURE_HASH: boolean;
+/** When false, removes style validation. Reduces bundle size but error messages for invalid styles will be less clear. */
+declare const FEATURE_VALIDATE_STYLE: boolean;

@@ -31,6 +31,7 @@ export const featureFlags: Record<string, boolean> = {
     FEATURE_POPUP: process.env.FEATURE_POPUP !== 'false',
     FEATURE_MARKER: process.env.FEATURE_MARKER !== 'false',
     FEATURE_HASH: process.env.FEATURE_HASH !== 'false',
+    FEATURE_VALIDATE_STYLE: process.env.FEATURE_VALIDATE_STYLE !== 'false',
 };
 
 // Common set of plugins/transformations shared across different rollup

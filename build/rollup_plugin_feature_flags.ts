@@ -89,6 +89,9 @@ const featureModuleMap: Record<string, string[]> = {
     FEATURE_HASH: [
         'ui/hash.ts',
     ],
+    FEATURE_VALIDATE_STYLE: [
+        'style/validate_style.ts',
+    ],
 };
 
 const STUB_MODULE_PREFIX = '\0feature-stub:';

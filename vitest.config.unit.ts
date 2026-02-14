@@ -16,6 +16,7 @@ export default defineConfig({
         FEATURE_POPUP: 'true',
         FEATURE_MARKER: 'true',
         FEATURE_HASH: 'true',
+        FEATURE_VALIDATE_STYLE: 'true',
     },
     test: {
         name: 'unit',
