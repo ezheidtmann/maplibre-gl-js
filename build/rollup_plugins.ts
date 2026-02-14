@@ -8,9 +8,22 @@ import strip from '@rollup/plugin-strip';
 import {type Plugin} from 'rollup';
 import json from '@rollup/plugin-json';
 import {visualizer} from 'rollup-plugin-visualizer';
+import {featureFlagPlugin} from './rollup_plugin_feature_flags';
 
 const {BUNDLE} = process.env;
 const stats = BUNDLE === 'stats';
+
+// Feature flags for optimized builds.
+// Set environment variables to "false" to exclude features from the bundle.
+// Example: FEATURE_TERRAIN=false FEATURE_HEATMAP=false npm run build-prod
+export const featureFlags: Record<string, boolean> = {
+    FEATURE_TERRAIN: process.env.FEATURE_TERRAIN !== 'false',
+    FEATURE_HEATMAP: process.env.FEATURE_HEATMAP !== 'false',
+    FEATURE_HILLSHADE: process.env.FEATURE_HILLSHADE !== 'false',
+    FEATURE_FILL_EXTRUSION: process.env.FEATURE_FILL_EXTRUSION !== 'false',
+    FEATURE_SKY: process.env.FEATURE_SKY !== 'false',
+    FEATURE_COLOR_RELIEF: process.env.FEATURE_COLOR_RELIEF !== 'false',
+};
 
 // Common set of plugins/transformations shared across different rollup
 // builds (main maplibre bundle, style-spec package, benchmarks bundle)
@@ -22,6 +35,19 @@ export const nodeResolve = resolve({
 
 export const plugins = (production: boolean): Plugin[] => [
     json(),
+    // Stub out modules belonging to disabled features so they (and their
+    // dependency trees) are never pulled into the bundle.
+    featureFlagPlugin(featureFlags),
+    // Replace feature flag identifiers with compile-time boolean constants.
+    // Using preventAssignment: true so that `export let FEATURE_X = true`
+    // declarations in feature_flags.ts are not mangled, while usages like
+    // `if (FEATURE_X)` are replaced with literal true/false.
+    replace({
+        preventAssignment: true,
+        values: Object.fromEntries(
+            Object.entries(featureFlags).map(([key, value]) => [key, JSON.stringify(value)])
+        )
+    }),
     // https://github.com/zaach/jison/issues/351
     replace({
         preventAssignment: true,

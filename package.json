@@ -145,6 +145,7 @@
     "build-dev": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:dev",
     "watch-dev": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:dev --watch",
     "build-prod": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:production",
+    "build-2d": "FEATURE_TERRAIN=false FEATURE_HEATMAP=false FEATURE_HILLSHADE=false FEATURE_FILL_EXTRUSION=false FEATURE_SKY=false FEATURE_COLOR_RELIEF=false rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:production",
     "build-csp": "rollup --configPlugin @rollup/plugin-typescript -c rollup.config.csp.ts --environment BUILD:production",
     "build-csp-dev": "rollup --configPlugin @rollup/plugin-typescript -c rollup.config.csp.ts --environment BUILD:dev",
     "build-css": "postcss -o dist/maplibre-gl.css src/css/maplibre-gl.css",

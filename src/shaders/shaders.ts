@@ -79,7 +79,7 @@ export type PreparedShader = {
     staticUniforms: Array<string>;
 };
 
-export const shaders = {
+export const shaders: Record<string, PreparedShader> = {
     prelude: prepare(preludeFrag, preludeVert),
     projectionMercator: prepare('', projectionMercatorVert),
     projectionGlobe: prepare('', projectionGlobeVert),
@@ -87,21 +87,14 @@ export const shaders = {
     backgroundPattern: prepare(backgroundPatternFrag, backgroundPatternVert),
     circle: prepare(circleFrag, circleVert),
     clippingMask: prepare(clippingMaskFrag, clippingMaskVert),
-    heatmap: prepare(heatmapFrag, heatmapVert),
-    heatmapTexture: prepare(heatmapTextureFrag, heatmapTextureVert),
     collisionBox: prepare(collisionBoxFrag, collisionBoxVert),
     collisionCircle: prepare(collisionCircleFrag, collisionCircleVert),
-    colorRelief: prepare(colorReliefFrag, colorReliefVert),
     debug: prepare(debugFrag, debugVert),
     depth: prepare(clippingMaskFrag, depthVert),
     fill: prepare(fillFrag, fillVert),
     fillOutline: prepare(fillOutlineFrag, fillOutlineVert),
     fillOutlinePattern: prepare(fillOutlinePatternFrag, fillOutlinePatternVert),
     fillPattern: prepare(fillPatternFrag, fillPatternVert),
-    fillExtrusion: prepare(fillExtrusionFrag, fillExtrusionVert),
-    fillExtrusionPattern: prepare(fillExtrusionPatternFrag, fillExtrusionPatternVert),
-    hillshadePrepare: prepare(hillshadePrepareFrag, hillshadePrepareVert),
-    hillshade: prepare(hillshadeFrag, hillshadeVert),
     line: prepare(lineFrag, lineVert),
     lineGradient: prepare(lineGradientFrag, lineGradientVert),
     linePattern: prepare(linePatternFrag, linePatternVert),
@@ -111,12 +104,14 @@ export const shaders = {
     symbolIcon: prepare(symbolIconFrag, symbolIconVert),
     symbolSDF: prepare(symbolSDFFrag, symbolSDFVert),
     symbolTextAndIcon: prepare(symbolTextAndIconFrag, symbolTextAndIconVert),
-    terrain: prepare(terrainFrag, terrainVert),
-    terrainDepth: prepare(terrainDepthFrag, terrainVertDepth),
-    terrainCoords: prepare(terrainCoordsFrag, terrainVertCoords),
     projectionErrorMeasurement: prepare(projectionErrorMeasurementFrag, projectionErrorMeasurementVert),
-    atmosphere: prepare(atmosphereFrag, atmosphereVert),
-    sky: prepare(skyFrag, skyVert),
+    // Feature-gated shaders
+    ...(FEATURE_HEATMAP ? {heatmap: prepare(heatmapFrag, heatmapVert), heatmapTexture: prepare(heatmapTextureFrag, heatmapTextureVert)} : {}),
+    ...(FEATURE_COLOR_RELIEF ? {colorRelief: prepare(colorReliefFrag, colorReliefVert)} : {}),
+    ...(FEATURE_FILL_EXTRUSION ? {fillExtrusion: prepare(fillExtrusionFrag, fillExtrusionVert), fillExtrusionPattern: prepare(fillExtrusionPatternFrag, fillExtrusionPatternVert)} : {}),
+    ...(FEATURE_HILLSHADE ? {hillshadePrepare: prepare(hillshadePrepareFrag, hillshadePrepareVert), hillshade: prepare(hillshadeFrag, hillshadeVert)} : {}),
+    ...(FEATURE_TERRAIN ? {terrain: prepare(terrainFrag, terrainVert), terrainDepth: prepare(terrainDepthFrag, terrainVertDepth), terrainCoords: prepare(terrainCoordsFrag, terrainVertCoords)} : {}),
+    ...(FEATURE_SKY ? {atmosphere: prepare(atmosphereFrag, atmosphereVert), sky: prepare(skyFrag, skyVert)} : {}),
 };
 
 /** Expand #pragmas to #ifdefs, extract attributes and uniforms */

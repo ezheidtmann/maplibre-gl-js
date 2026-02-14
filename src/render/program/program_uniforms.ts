@@ -17,9 +17,7 @@ import {skyUniforms} from './sky_program';
 
 const emptyUniforms = (_: any, __: any): any => {};
 
-export const programUniforms = {
-    fillExtrusion: fillExtrusionUniforms,
-    fillExtrusionPattern: fillExtrusionPatternUniforms,
+export const programUniforms: Record<string, any> = {
     fill: fillUniforms,
     fillPattern: fillPatternUniforms,
     fillOutline: fillOutlineUniforms,
@@ -30,11 +28,6 @@ export const programUniforms = {
     debug: debugUniforms,
     depth: emptyUniforms,
     clippingMask: emptyUniforms,
-    heatmap: heatmapUniforms,
-    heatmapTexture: heatmapTextureUniforms,
-    hillshade: hillshadeUniforms,
-    hillshadePrepare: hillshadePrepareUniforms,
-    colorRelief: colorReliefUniforms,
     line: lineUniforms,
     lineGradient: lineGradientUniforms,
     linePattern: linePatternUniforms,
@@ -46,10 +39,12 @@ export const programUniforms = {
     symbolTextAndIcon: symbolTextAndIconUniforms,
     background: backgroundUniforms,
     backgroundPattern: backgroundPatternUniforms,
-    terrain: terrainUniforms,
-    terrainDepth: terrainDepthUniforms,
-    terrainCoords: terrainCoordsUniforms,
     projectionErrorMeasurement: projectionErrorMeasurementUniforms,
-    atmosphere: atmosphereUniforms,
-    sky: skyUniforms
+    // Feature-gated program uniforms
+    ...(FEATURE_FILL_EXTRUSION ? {fillExtrusion: fillExtrusionUniforms, fillExtrusionPattern: fillExtrusionPatternUniforms} : {}),
+    ...(FEATURE_HEATMAP ? {heatmap: heatmapUniforms, heatmapTexture: heatmapTextureUniforms} : {}),
+    ...(FEATURE_HILLSHADE ? {hillshade: hillshadeUniforms, hillshadePrepare: hillshadePrepareUniforms} : {}),
+    ...(FEATURE_COLOR_RELIEF ? {colorRelief: colorReliefUniforms} : {}),
+    ...(FEATURE_TERRAIN ? {terrain: terrainUniforms, terrainDepth: terrainDepthUniforms, terrainCoords: terrainCoordsUniforms} : {}),
+    ...(FEATURE_SKY ? {atmosphere: atmosphereUniforms, sky: skyUniforms} : {}),
 };

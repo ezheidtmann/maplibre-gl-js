@@ -22,15 +22,19 @@ export function createStyleLayer(layer: LayerSpecification | CustomLayerInterfac
         case 'circle':
             return new CircleStyleLayer(layer, globalState);
         case 'color-relief':
-            return new ColorReliefStyleLayer(layer, globalState);
+            if (FEATURE_COLOR_RELIEF) return new ColorReliefStyleLayer(layer, globalState);
+            break;
         case 'fill':
             return new FillStyleLayer(layer, globalState);
         case 'fill-extrusion':
-            return new FillExtrusionStyleLayer(layer, globalState);
+            if (FEATURE_FILL_EXTRUSION) return new FillExtrusionStyleLayer(layer, globalState);
+            break;
         case 'heatmap':
-            return new HeatmapStyleLayer(layer, globalState);
+            if (FEATURE_HEATMAP) return new HeatmapStyleLayer(layer, globalState);
+            break;
         case 'hillshade':
-            return new HillshadeStyleLayer(layer, globalState);
+            if (FEATURE_HILLSHADE) return new HillshadeStyleLayer(layer, globalState);
+            break;
         case 'line':
             return new LineStyleLayer(layer, globalState);
         case 'raster':
@@ -39,4 +43,3 @@ export function createStyleLayer(layer: LayerSpecification | CustomLayerInterfac
             return new SymbolStyleLayer(layer, globalState);
     }
 }
-
