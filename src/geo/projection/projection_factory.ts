@@ -20,7 +20,7 @@ export function createProjectionFromName(name: ProjectionSpecification['type'], 
     cameraHelper: ICameraHelper;
 } {
     const transformOptions = {constrainOverride: transformConstrain};
-    if (Array.isArray(name)) {
+    if (FEATURE_GLOBE && Array.isArray(name)) {
         const globeProjection = new GlobeProjection({type: name});
         return {
             projection: globeProjection,
@@ -39,6 +39,10 @@ export function createProjectionFromName(name: ProjectionSpecification['type'], 
         }
         case 'globe':
         {
+            if (!FEATURE_GLOBE) {
+                warnOnce('Globe projection is not available in this build. Falling back to mercator projection.');
+                break;
+            }
             const globeProjection = new GlobeProjection({type: [
                 'interpolate',
                 ['linear'],
@@ -56,6 +60,10 @@ export function createProjectionFromName(name: ProjectionSpecification['type'], 
         }
         case 'vertical-perspective':
         {
+            if (!FEATURE_GLOBE) {
+                warnOnce('Vertical-perspective projection is not available in this build. Falling back to mercator projection.');
+                break;
+            }
             return {
                 projection: new VerticalPerspectiveProjection(),
                 transform: new VerticalPerspectiveTransform(transformOptions),
@@ -63,13 +71,15 @@ export function createProjectionFromName(name: ProjectionSpecification['type'], 
             };
         }
         default:
-        {
-            warnOnce(`Unknown projection name: ${name}. Falling back to mercator projection.`);
-            return {
-                projection: new MercatorProjection(),
-                transform: new MercatorTransform(transformOptions),
-                cameraHelper: new MercatorCameraHelper(),
-            };
-        }
+            break;
     }
+    // Fallback for unknown projections or disabled features
+    if (typeof name === 'string' && name !== 'mercator') {
+        warnOnce(`Unknown or unavailable projection: ${name}. Falling back to mercator projection.`);
+    }
+    return {
+        projection: new MercatorProjection(),
+        transform: new MercatorTransform(transformOptions),
+        cameraHelper: new MercatorCameraHelper(),
+    };
 }

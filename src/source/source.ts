@@ -164,7 +164,8 @@ const getSourceType = (name: string): SourceClass => {
         case 'geojson':
             return GeoJSONSource;
         case 'image':
-            return ImageSource;
+            if (FEATURE_IMAGE_SOURCE) return ImageSource;
+            break;
         case 'raster':
             return RasterTileSource;
         case 'raster-dem':
@@ -172,9 +173,11 @@ const getSourceType = (name: string): SourceClass => {
         case 'vector':
             return VectorTileSource;
         case 'video':
-            return VideoSource;
+            if (FEATURE_VIDEO_SOURCE) return VideoSource;
+            break;
         case 'canvas':
-            return CanvasSource;
+            if (FEATURE_CANVAS_SOURCE) return CanvasSource;
+            break;
     }
     return registeredSources[name];
 };

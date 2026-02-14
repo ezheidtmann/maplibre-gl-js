@@ -82,7 +82,7 @@ export type PreparedShader = {
 export const shaders: Record<string, PreparedShader> = {
     prelude: prepare(preludeFrag, preludeVert),
     projectionMercator: prepare('', projectionMercatorVert),
-    projectionGlobe: prepare('', projectionGlobeVert),
+    ...(FEATURE_GLOBE ? {projectionGlobe: prepare('', projectionGlobeVert)} : {}),
     background: prepare(backgroundFrag, backgroundVert),
     backgroundPattern: prepare(backgroundPatternFrag, backgroundPatternVert),
     circle: prepare(circleFrag, circleVert),

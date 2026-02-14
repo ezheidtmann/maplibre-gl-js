@@ -23,6 +23,14 @@ export const featureFlags: Record<string, boolean> = {
     FEATURE_FILL_EXTRUSION: process.env.FEATURE_FILL_EXTRUSION !== 'false',
     FEATURE_SKY: process.env.FEATURE_SKY !== 'false',
     FEATURE_COLOR_RELIEF: process.env.FEATURE_COLOR_RELIEF !== 'false',
+    FEATURE_GLOBE: process.env.FEATURE_GLOBE !== 'false',
+    FEATURE_VIDEO_SOURCE: process.env.FEATURE_VIDEO_SOURCE !== 'false',
+    FEATURE_CANVAS_SOURCE: process.env.FEATURE_CANVAS_SOURCE !== 'false',
+    FEATURE_IMAGE_SOURCE: process.env.FEATURE_IMAGE_SOURCE !== 'false',
+    FEATURE_CONTROLS: process.env.FEATURE_CONTROLS !== 'false',
+    FEATURE_POPUP: process.env.FEATURE_POPUP !== 'false',
+    FEATURE_MARKER: process.env.FEATURE_MARKER !== 'false',
+    FEATURE_HASH: process.env.FEATURE_HASH !== 'false',
 };
 
 // Common set of plugins/transformations shared across different rollup

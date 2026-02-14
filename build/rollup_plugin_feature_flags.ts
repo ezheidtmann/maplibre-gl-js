@@ -49,6 +49,45 @@ const featureModuleMap: Record<string, string[]> = {
         'render/draw_color_relief.ts',
         'render/program/color_relief_program.ts',
     ],
+    FEATURE_GLOBE: [
+        'geo/projection/globe_projection.ts',
+        'geo/projection/globe_transform.ts',
+        'geo/projection/globe_camera_helper.ts',
+        'geo/projection/globe_covering_tiles_details_provider.ts',
+        'geo/projection/globe_utils.ts',
+        'geo/projection/globe_projection_error_measurement.ts',
+        'geo/projection/vertical_perspective_projection.ts',
+        'geo/projection/vertical_perspective_transform.ts',
+        'geo/projection/vertical_perspective_camera_helper.ts',
+        'ui/control/globe_control.ts',
+    ],
+    FEATURE_VIDEO_SOURCE: [
+        'source/video_source.ts',
+    ],
+    FEATURE_CANVAS_SOURCE: [
+        'source/canvas_source.ts',
+    ],
+    FEATURE_IMAGE_SOURCE: [
+        'source/image_source.ts',
+    ],
+    FEATURE_CONTROLS: [
+        'ui/control/navigation_control.ts',
+        'ui/control/geolocate_control.ts',
+        'ui/control/scale_control.ts',
+        'ui/control/fullscreen_control.ts',
+        'ui/control/logo_control.ts',
+        'ui/control/terrain_control.ts',
+        'ui/control/globe_control.ts',
+    ],
+    FEATURE_POPUP: [
+        'ui/popup.ts',
+    ],
+    FEATURE_MARKER: [
+        'ui/marker.ts',
+    ],
+    FEATURE_HASH: [
+        'ui/hash.ts',
+    ],
 };
 
 const STUB_MODULE_PREFIX = '\0feature-stub:';
